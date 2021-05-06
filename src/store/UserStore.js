@@ -5,7 +5,7 @@ import { makeAutoObservable } from "mobx";
 export default class UserStore {
     constructor() {
         // it calls when object created by this class
-        this._isAuth = false; // "_" means this variable can't change
+        this._isAuth = true; // "_" means this variable can't change
         this._user = {};
         makeAutoObservable(this); // with this function mobx will listen changes on this variables and will render components If changes occur
     }
