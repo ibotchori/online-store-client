@@ -8,6 +8,11 @@ import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 const NavBar = observer(() => { // that component render on line mode, we nee observer to keep track of state changes
     const { user } = useContext(Context) // get user from global state (UserStore)
     const history = useHistory()
+
+    const logOut = () => { // function for logout user
+        user.setUser({})
+        user.setIsAuth(false)
+}
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -21,12 +26,12 @@ const NavBar = observer(() => { // that component render on line mode, we nee ob
                         <Button
                             variant={"outline-light"}
                             className="ml-2"
-                            onClick={() => history.push(LOGIN_ROUTE)}
+                            onClick={() => logOut()} // run logOut function on click
                         >Log out</Button>
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{ color: 'white' }}>
-                        <Button variant={"outline-light"} onClick={() => user.setIsAuth(true)}>Authorization</Button> {/* make isAuth true on click */}
+                        <Button variant={"outline-light"} onClick={() => history.push(LOGIN_ROUTE)}>Authorization</Button> {/* navigate to Login page on click */}
                     </Nav>
                 }
             </Container>
