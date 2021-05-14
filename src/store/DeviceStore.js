@@ -12,10 +12,13 @@ export default class DeviceStore {
         
         this._selectedType = {} // add object for selected type
         this._selectedBrand = {} // add object for selected brand
+        this._page = 1 // current page
+        this._totalCount = 0 // total number of items
+        this._limit = 3 // number of items on page
         makeAutoObservable(this) // with this function mobx will listen changes on this variables and will render components If changes occur
     }
 
-    /* Actions are funtions which change the state */
+    /* Actions are funtions which change the state (Setter) */
     setTypes(types) { // <-- Action
         this._types = types
     }
@@ -26,11 +29,22 @@ export default class DeviceStore {
         this._devices = devices
     }
     setSelectedType(type) { // add Action for selected type
+        this.setPage(1)
         this._selectedType = type
     }
     setSelectedBrand(brand) { // add Action for selected brand
         this._selectedBrand = brand
     }
+
+    setPage(page) { // add Action for  page
+        this._page = page
+    }
+
+    setTotalCount(count) { // add Action for total count
+        this._totalCount = count
+    }
+
+  
 
 
     /* Getters for this variables, to archive this variables from state (Computed function) */
@@ -53,5 +67,16 @@ export default class DeviceStore {
         return this._selectedBrand
     }
 
+    get page() { // add Getter for page
+        return this._page
+    }
+
+    get totalCount() { // add Getter for total count
+        return this._totalCount
+    }
+    
+    get limit() { // add Getter limit
+        return this._limit
+    }
 
 }

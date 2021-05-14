@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { Context } from '..'
 import BrandBar from '../components/BrandBar'
 import DeviceList from '../components/DeviceList'
+import Pages from '../components/Pages'
 import TypeBar from '../components/TypeBar'
 import { fetchBrands, fetchTypes, fetchDevices } from '../http/deviceAPI'
 
@@ -13,8 +14,18 @@ const Shop = observer(() =>{ // that component render on line mode, we need obse
     useEffect(() => { // receive data on open shop component
         fetchTypes().then(data => device.setTypes(data))
         fetchBrands().then(data => device.setBrands(data))
-        fetchDevices().then(data => device.setDevices(data.rows))    
+        fetchDevices(null, null, 1, 2).then(data => {
+            device.setDevices(data.rows)
+            device.setTotalCount(data.count) // get total count of items and save to global state
+        })    
     }, [])
+
+    useEffect(() => {
+        fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 2).then(data => {
+            device.setDevices(data.rows)
+            device.setTotalCount(data.count)
+        })
+    }, [device.page, device.selectedType, device.selectedBrand,])
 
     return (
         <Container>
@@ -26,6 +37,7 @@ const Shop = observer(() =>{ // that component render on line mode, we need obse
                 <Col md={9}>
                     <BrandBar />
                     <DeviceList />
+                    <Pages />
                 </Col>
             </Row>
         </Container>
